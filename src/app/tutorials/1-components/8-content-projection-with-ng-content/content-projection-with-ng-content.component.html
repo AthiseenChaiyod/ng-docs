@@ -1,0 +1,13 @@
+<h1>This is Content Projection with ng-content Chapter!</h1>
+<!-- การใส่ ng-content เข้ามาใน Component จะทำให้เราสามารถแทรก content มากับ Component นี้ได้ -->
+<!-- โดยเราสามารถใส่ content ผ่านการใส่ HTML tag ด้านใน Component tag อีกที -->
+<!-- เช่น <component-tag><this-is-content /></component-tag> -->
+<!-- โดย <ng-content /> เปล่า ๆ ที่อยู่ใน Component หมายถึง อะไรก็ตามที่ถูกแทรกมาให้เอามาแสดงทั้งหมด -->
+<!-- ถ้าเราใส่ div มา 3 ตัวก็จะแสดงหมดนั่นเลย  -->
+<!-- สรุปแล้ว ng-content ก็จะหมายถึงเราสามารถแทรก HTML tag มาในใด ๆ กี่ตัวมาใน Component นี้ก็ได้ -->
+<!-- เราสามารถเลือกแค่บาง tag มาแสดงได้ โดยการระบุ select="value" เอาไว้ -->
+<!-- value นั้นจะเป็นชื่อ tag อะไรก็ได้ ไม่ว่าจะ div, p หรือ custom tag อย่าง another-tag -->
+<!-- เช่น <ng-content select="div" /> ก็คือการเลือกแต่ content div ที่ถูกแทรกเข้ามา -->
+<!-- แต่ว่าถ้ามี div หลายตัวก็จะนำมาแสดงหมดนั่นเลย -->
+<!-- ถ้าอยากให้แสดงแค่ตัวใดตัวหนึ่งจริง ๆ ควรจะใช้ชื่อที่เป็น Custom HTML tag ดีกว่า -->
+<ng-content select="use-project-as" />
