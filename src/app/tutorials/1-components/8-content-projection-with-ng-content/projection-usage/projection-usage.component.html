@@ -1,0 +1,12 @@
+<!-- ตัวอย่างการนำ content มาแทรกให้กับ Component ที่มี ng-content -->
+<!-- โดยบางครั้ง เรามี div หลายตัว แต่ว่าเราอยาก render แค่ div ตัวใดตัวหนึ่งแค่ตัวเดียว -->
+<!-- ถ้าเราใส่ <ng-content select="div" /> ก็จะนำ div ทุกตัวมาแสดงอยู่ดี -->
+<!-- การที่เราจะไปสร้าง Component ตัวใหม่ที่แสดงข้อความเฉย ๆ มันก็วุ่นวาย เขียนโค้ดเพิ่มเยอะ -->
+<!-- ดังนั้นเราเลยมี ngProjectAs ให้ใช้ -->
+<!-- ngProjectAs จะรับค่า string 1 ตัว ที่จะสมมติว่าจะให้ชื่อของ tag นี้กลายเป็นสิ่งที่ระบุเอาไว้ -->
+<!-- เช่น <div ngProjectAs="some-tag" /> ก็หมายถึง div นี้จะชื่อ some-tag ไม่ใช่ div -->
+<!-- ทำให้เราสามารถใช้ select เพื่อระบุชื่อ custom tag ได้โดยไม่ต้องสร้าง Component อะไรวุ่นวาย -->
+<!-- เช่น <ng-content select="some-tag" /> -->
+<content-projection-with-ng-content>
+  <div ngProjectAs="use-project-as">This is UseProjectAs</div>
+</content-projection-with-ng-content>
