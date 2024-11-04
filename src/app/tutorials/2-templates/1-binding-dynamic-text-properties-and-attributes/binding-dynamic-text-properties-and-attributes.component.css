@@ -1,0 +1,19 @@
+.classBinding {
+  color: red;
+}
+
+.stringClass {
+  color: violet;
+}
+
+.stringArrayClassA {
+  color: green;
+}
+
+.stringArrayClassB {
+  color: silver;
+}
+
+.recordClass {
+  font-weight: bold;
+}

@@ -1,0 +1,78 @@
+<!-- Text Interpolation -->
+<!-- คือการนำค่าของ property มาแสดงเป็นข้อความ string บน HTML tag -->
+<!-- ใช้ {{  }} ครอบชื่อ property ที่เราจะเอามาแสดง -->
+<h1>Name: {{ text }}</h1>
+
+<!-- Native Element Properties -->
+<!-- พวก attributes ของ HTML ทั่วไป เราสามารถทำ binding ได้โดยการครอบ [ ] -->
+<button [disabled]="isDisable">Button disabled</button>
+
+<!-- Component and Directive Properties -->
+<!-- เราสามารถทำ Binding ให้กับ input ของ Component ได้โดยการใช้ [ ] ครอบเหมือนกัน -->
+<!-- เหมือนกับบทที่เราใช้ input binding ของ Component เลย -->
+<simple-component [name]="'Chaiyod'" />
+
+<!-- Attributes -->
+<!-- Attributes จะแบ่งออกเป็น 2 แบบ คือแบบที่มีใน DOM Properties กับแบบที่ไม่มี -->
+<!-- เวลาที่เราจะ render HTML ก็จะถูกนำไปแปลงเป็น DOM Element ก่อน -->
+<!-- ก็คือการนำ HTLM Element มาสร้างให้อยู่ในภาษา JS เพื่อที่เราจะได้เรียกใช้งานได้ -->
+<!-- เช่น การใช้ document.getElementById() เพื่อเข้าถึง element -->
+<!-- ที่เราสามารถเข้าถึงได้ก็เพราะมันถูกเอามาแปลงเป็น JS แล้ว -->
+<!-- แต่ว่า Attribute บางตัวของ element ก็จะไม่สามารถถูกนำมาสร้างเป็น DOM Property ได้ -->
+<!-- อารมณ์เหมือนไม่ได้เขียนโปรแกรมรองรับว่าหากมีค่านี้มาจะต้องทำยังไง ประมาณนั้น -->
+<!-- ก็เลยเป็น 2 ฝั่งอย่างที่บอกไปตอนตั้น คือฝั่งที่มี DOM Property / ไม่มี -->
+<!-- และในการผูกค่าของ attribute ที่ไม่มีใน DOM Property เราก็จะต้องทำการ binding ด้วย -->
+<!-- โดยเพิ่มเติมจากการครอบ [ ] เอาไว้ก็ให้ใส่ attr. เอาไว้เป็น prefix ด้วย -->
+<!-- เช่น [attr.aria-hidden]="..." -->
+<!-- โดยหลักการใส่ attr. ก็จะใส่ให้กับ aria, svg, custom property ของ element -->
+<div [attr.aria-hidden]="isAriaHidden"></div>
+
+<!-- Text Interpolation in properties and attributes -->
+<!-- เราสามารถใช้ text interpolation ข้างใน property / attribute ได้เหมือนกัน -->
+<button attr.aria-label="This is for {{ text }}">Hello</button>
+
+<!-- CSS Class -->
+<!-- เราสามารถทำ dynamic binding ให้กับ class บน HTML tag ได้ด้วย -->
+<!-- เช่น เราอยากให้ class นี้แสดงผลถ้าเกิดค่านี้ตรงตาม condition -->
+<!-- ก่อนอื่น ภายใน HTML tag ให้เราใช้ class. เป็น prefix และตามด้วยชื่อ Class ที่เราจะทำ binding -->
+<!-- แล้วให้ครอบด้วย [ ] จากนั้นจึง assign ค่าที่เราอยากผูกด้วยเอาไว้ -->
+<!-- เช่น <h1 [class.someClass]="isClassAvailable">Ayooo</h1> -->
+<!-- หากค่าของ isClassAvailable เป็นจริงก็จะใส่ class="someClass" ให้กับ tag h1 -->
+<h1 [class.classBinding]="isClassAvailable">This is colored!</h1>
+
+<!-- หรือเราจะ bind Class โดยตรงเลยโดยไม่ต้องใส่ Condition ก็ได้ -->
+<!-- เราก็จะใส่ไปแค่ [class] แล้วค่อย assign ชื่อ Class ที่เราอยากใช้เอาไว้ -->
+<!-- เช่น <div [class]="'someClass anotherClass'">Hello World!</div> -->
+<p [class]="'stringClass'">We have a problem!</p>
+
+<!-- หรือจะใช้ string[] ก็ได้เหมือนกัน -->
+<!-- เช่น <div [class]="['someClass', 'anotherClass']">Hi there!</div> -->
+<!-- โดยการใช้ array ก็จะมีค่าเหมือนกับเราเว้นวรรคด้วย space คั่นกลางแต่ละตัวโดยอัตโนมัติอยู่แล้ว -->
+<div [class]="['stringArrayClassA', 'stringArrayClassB']">
+  This also will be colored!
+</div>
+
+<!-- และการทำ class binding ตัวสุดท้ายก็คือการใช้ Record<string, boolean> -->
+<!-- อธิบายเพิ่มเติมเรื่อง Record<K, T> กับ Object ตรงนี้ เผื่ออ่านแล้วงง -->
+<!-- Record หน้าตามันก็เหมือนกับ Object เลยนี่นา แล้วเราจะเรียกมัน Record ทำไมให้งง -->
+<!-- ประเด็นอยู่ตรงนี้แหละ Record มันก็คือ Object ที่เราระบุ Type มาแล้วว่าต้องสร้างยังไง -->
+<!-- เช่น เราอยากสร้าง Record<string: number> ก็แปลว่า Object เราต้องอยู่ในรูปแบบ string: number -->
+<!-- อย่าง myObject { age: 20, height: 165, weight: 43 } แบบนี้เท่านั้น -->
+<!-- การที่เราบอกว่าสร้าง Object ขึ้นมาตัวหนึ่ง มันดูเป็นภาพกว้าง ๆ มากกว่าการพูดถึง Record -->
+<!-- สรุปแล้ว class binding แบบสุดท้ายเราจะสร้างเก็บ class name เอาไว้กับ boolean นั่นเอง -->
+<h3 [class]="{ recordClass: true }">This will be colored as well!</h3>
+
+<!-- CSS Style Properties -->
+<!-- เราสามารถทำ style binding เอาไว้ได้ด้วย โดยการครอบ [ ] ไว้บน style. และตามด้วยชื่อ style -->
+<!-- เช่น [style.color]="isRed" ถ้าตัวแปร isRed มีค่า 'red' เราก็จะได้ตัวอักษรสีแดงมา -->
+<!-- ถ้าเกิด style นั้นต้องการหน่วย เช่น ความสูง เราก็สามารถ . ตามหลังชื่อ style ได้เลย -->
+<!-- เช่น [style.height.px]="elementHeight" -->
+<p [style.color]="isRed">This is some paragraph.</p>
+
+<!-- จากที่เห็นในตัวอย่างโค้ด [style.red]="isRed" เราเก็บเอาไว้ในรูปแบบ string -->
+<!-- แต่ว่าเราสามารถสร้าง Record<K, T> ได้เหมือนกับ CSS Class เลย -->
+<!-- แต่รอบนี้เราจะเก็บในรูปแบบ Record<string, any> แทน -->
+<!-- ให้ any คือค่าใด ๆ ที่เราต้องการของ style นั้น เช่น color ต้องการ 'red' ก็เลยเป็นค่า string -->
+<!-- แต่โดยส่วนมากก็จะเห็น value เป็น string นั่นแหละ -->
+<!-- เราก็แค่ใส่ style เอาไว้ใน [ ] แล้วก็ assign ค่าที่เราอยากได้ เหมือนกับ [class] ที่ไม่ต้องมีชื่อตามหลัง -->
+<p [style]="{ color: 'gold' }">This is another paragraph.</p>
