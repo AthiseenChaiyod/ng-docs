@@ -1,0 +1,49 @@
+<!-- ในโค้ดที่ผ่าน ๆ มาปกติแล้วเวลาที่เราจะทำ conditional rendering เราจะใช้ ngIf -->
+<!-- แต่ว่าเรามีวิธีที่ดีกว่า ใหม่กว่านั้น นั่นก็คือการใช้ if ไปเลยตรง ๆ -->
+<!-- ให้เราใส่ @if(condition) { ... } ได้เลย else ก็ต้องมี @ ถ้า else if จะเป็น @else if -->
+@if(x > y) {
+<h1>{{ x }} is greater than {{ y }}</h1>
+} @else if(x < y) {
+<h1>{{ x }} is lesser than {{ y }}</h1>
+} @else {
+<h1>{{ x }} is equal to {{ y }}</h1>
+}
+
+<!-- เราสามารถนำค่าของ condition มาใส่ไว้ในตัวแปรเพื่อนำไปใช้ใหม่ได้ -->
+<!-- ให้เราใส่ ; เอาไว้และตามด้วย as และชื่อตัวแปร -->
+@if(x+y < 100; as isLesserThanHundred) {
+<h1>The value is: {{ isLesserThanHundred }}</h1>
+}
+
+<!-- หรือเราจะ loop rendering ก็ได้ โดยใช้ @for(a of b; track value) { ... } -->
+<!-- โดย a of b จะหมายถึงการ loop through object / array ทั่วไปนั่นแหละ -->
+<!-- สำคัญคือ track value ด้านหลังของ a of b ที่จะเป็น id ของ item ที่ถูก render แต่ละตัว -->
+<!-- สมมติว่าเรานำ Object ที่มี key id: string มาทำ loop rendering -->
+<!-- เราสามารถที่จะใช้ track a.id เพื่อเป็น unique id ให้กับแต่ละ a ได้ด้วย -->
+<!-- หรือมีอีกตัวเลือกคือเราจะไปสร้าง method ที่จะส่งค่า id กลับมา -->
+<!-- เช่น trackByUUID(index: number, a: any) { return `${index}-${a.name}` } -->
+<!-- โดยสิ่งที่เราจะส่งเข้าไปให้กับ method เราก็เอามาจากข้างใน Obejct ของเราเองนั่นแหละ -->
+<!-- เช่น index เราก็เอามาจาก $index ส่วน a ก็คือ a of b หรือก็คือ object ตัวที่เรา loop อยู่ -->
+<!-- ตอนนำมาใช้กับ track ก็จะได้ a of b; track trackByUUID($index, a) -->
+<!-- นอกจาก $index ก็จะมี $count, $even, $odd, $first และ $last ให้ใช้งาน -->
+<!-- โดยเราสามารถตั้งชื่อให้กับ $ แต่ละตัวได้ ด้านหลัง track ให้ใส่ ; ตามด้วย let name = $... -->
+<!-- เช่น let sum = $count -->
+<!-- และเราสามารถเขียนดัก empty object / array ได้โดยใช้ @empty -->
+@for(item of emptyList; track trackByFn($index, item); let sum = $count;) {
+<h1>This array has sum of {{ sum }}</h1>
+} @empty {
+<h1>This is an empty list!</h1>
+}
+
+<!-- สุดท้าย เราสามารถเขียน switch-case ได้โดยใช้ @switch() { @case() { ... } } -->
+<!-- default ก็เขียนเป็น @default { ... } แทน -->
+<!-- เราไม่จำเป็นต้องเขียน break หรือ return เหมือนปกติด้วย -->
+@switch(role) { @case('guest') {
+<h1>Hello guest!</h1>
+} @case('user') {
+<h1>Hello user!</h1>
+} @case('admin') {
+<h1>Hello admin!</h1>
+} @default {
+<h1>bug!</h1>
+} }
