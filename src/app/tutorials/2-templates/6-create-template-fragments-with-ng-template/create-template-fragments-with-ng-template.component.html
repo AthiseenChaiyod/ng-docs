@@ -1,0 +1,55 @@
+<!-- element ปกติจะถูก render เสมอ -->
+<h1>This is normal element.</h1>
+
+<!-- แต่ ng-template จะไม่ถูกนำมา render -->
+<!-- เราสามารถใช้ template expression ใน ng-template ได้ปกติ -->
+<!-- และเราก็สามารถใส่ Query Locator เอาไว้เพื่อจะนำไปเก็บค่าใน @ViewChild() ได้ -->
+<ng-template #locator>
+  <h1>This is template element, with property value: {{ value }}</h1>
+</ng-template>
+
+<!-- มีอีกหลายวิธีที่จะนำ Template มา render -->
+<!-- วิธีที่ใช้ Directive ในการ inject(template) เราจะไปพูดถึงอีกทีในบท Directive -->
+<!-- วิธีต่อมาที่เราจะพูดถึงกันก็คือการใช้ ngTemplateOutlet -->
+<!-- เหมือนกับที่เราทำ dynamic rendering ด้วย ngComponentOutlet เลย -->
+<!-- ตัว ngTemplateOutlet จะ ref ไปยัง locator ของ template fragment ที่เราจะ render  -->
+<!-- เช่น [ngTemplateOutlet]="locator" -->
+<!-- โดยจะนำ ngTemplateOutlet ไปเขียนเอาไว้บน ng-container เหมือนกับ ngComponentOutlet -->
+<!-- เช่น <ng-container [ngTemplateOutlet]="locator" /> -->
+<!-- อย่าลืม imports NgTemplateOutlet มาด้วย -->
+<ng-container [ngTemplateOutlet]="locator" />
+
+<!-- อีกวิธีก็คือการใช้ ViewContainerRef เพื่อใช้คำสั่งสร้าง embedView -->
+<!-- จะคล้าย ๆ กับที่เราใช้ .createComponent ในบท programmatically rendering นั่นแหละ -->
+<!-- อันดับแรกก็ให้เราไปสร้าง Component ที่มี input: TemplateRef ก่อน -->
+<!-- พอเราเอามาใช้ใน Component ที่มี ng-template เราก็สามารถให้ค่า input ตัวนั้นเป็น locator ได้ -->
+<!-- แล้วเราก็อาจจะมีคำสั่งที่จะ render input นั้น เพื่อทำการ render มันบนหน้าเว็บ -->
+<component-a [templateFragment]="locator" />
+
+<!-- นอกจากการ ref ไปที่ Property ของ Component แล้วเราก็สามารถสร้างตัวแปรบน template ได้เลย -->
+<!-- เราจะใช้ let-name="key" ใน ng-template เช่น <ng-template let-name="someKey" /> -->
+<!-- การใส่ค่าให้กับ let-name ไม่ใช่การตั้งค่าให้กับมัน -->
+<!-- เช่น let-name="Athiseen" ไม่ใช่ ให้ตัวแปร name="Athiseen" -->
+<!-- ดังนั้นเวลาเรานำไปใส่ใน template expression จะไม่ render "Athiseen" ออกมา -->
+<!-- แต่ว่าเป็นการตั้งค่าให้เราสามารถใช้ตัวแปร name ใน template expression ได้เฉย ๆ -->
+<!-- โดยที่เราจะใช้ key ที่เรารับมาจาก ngTemplateOutletContext เป็นค่าของ key นี้อีกที -->
+<!-- แปลว่าเราจะต้องประกาศสองส่วน -->
+<!-- ส่วนแรกคือเราจะให้ตัวแปรนี้ไปรับค่าจาก key ไหนของ ngTemplateOutletContext -->
+<!-- ส่วนที่สองคือเราจะประกาศ ngTemplateOutletContext เพื่อส่งค่ากลับมา -->
+<!-- เช่น เรามี template เป็น <ng-template let-name="age" #someQuery /> -->
+<!-- เวลาเราเอาไป render ผ่าน ng-container เราจะได้โค้ดข้างใน ng-container ตามบรรทัดด้านล่าง -->
+<!-- [ngTemplateOutlet]="someQuery" [ngTemplateOutletContext]="{ age: 25 }" -->
+<!-- เราใช้ outlet ชี้ไปที่ someQuery ซึ่งก็คือ template ที่เราอยากจะ render -->
+<!-- และเราใช้ outletContext สร้าง Record ที่มี key ตรงกับ let- เพื่อส่งค่ากลับไป -->
+<!-- สรุปสั้น ๆ คือ เราสั่งให้ let- ไปเอาค่าจาก key ที่เรา assign ให้มันที่ outletContext -->
+<ng-template let-name="firstName" #query>
+  <p>My name is: {{ name }}</p>
+</ng-template>
+
+<ng-container
+  [ngTemplateOutlet]="query"
+  [ngTemplateOutletContext]="{ firstName: 'Athiseen' }"
+></ng-container>
+
+<!-- ถ้าเราอยากส่ง context ให้มันโดยใช้ createEmbedView() ก็ให้เราคั่น , แล้วส่ง Record มาเลย -->
+<component-b [templateWithContext]="query" />
