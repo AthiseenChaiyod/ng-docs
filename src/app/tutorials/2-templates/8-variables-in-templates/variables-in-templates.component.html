@@ -1,0 +1,25 @@
+<!-- เราสามารถสร้างตัวแปรใน template ก็ได้ ไม่ต้องไปสร้างที่ Component -->
+<!-- ใช้ keyword @let เพื่อสร้างตัวแปร โดยจะต้องมี ; ปิดท้ายเสมอ -->
+<!-- เราจะไม่สามารถแก้ไขค่าทีหลังได้ใน template (ตัวแปรทำงานเหมือน const ใน JS) -->
+<!-- และตัวแปรก็จะมี Scope การใช้งานเหมือนกับ JS ปกติ ไม่สามารถเรียกใช้ตัวข้างในจากข้างนอกได้ -->
+@let name = 'Athiseen';
+
+<!-- ปกติแล้ว HTML จะถูกตีขึ้นไปด้านหลัง ; จากการ format ของ prettier -->
+<!-- แก้ได้โดยใส่ comment เพื่อไม่ให้โดยย้ายไปต่อหลัง @let -->
+@if(name === 'Athiseen') {
+<h1>Hello {{ name }}</h1>
+} @else {
+<h1>Wait! You're not Athiseen, you're {{ name }}! Who are you!?</h1>
+}
+
+<!-- ตัวแปรอีกประเภทที่เราใช้บ่อย ๆ ก็คือ Template Reference Variable -->
+<!-- สร้างภายใน tag โดยการใส่ # หน้าตัวแปร เช่น <div #something /> -->
+<!-- ก็คือพวก Query Locator ที่เราใช้กันนั่นแหละ -->
+<!-- การที่เราสร้างตัวแปรด้วย # เรียกว่าเราสร้าง Template Ref Variable -->
+<!-- ส่วนการดึงไปใช้ใน @ViewChild(), etc. เรียกว่าการ Query -->
+<!-- มีข้อแตกต่างในการสร้าง TRV สามประเภท -->
+<!-- ประเภทแรก ถ้าเรานำ # ไปแปะไว้บน Angular Component จะหมายถึง instance ของ Component เอง -->
+<!-- ประเภทสอง เอาไปแปะบน HTML tag ก็จะหมายถึง ElementRef<T> -->
+<!-- ประเภทสาม ถ้าแปะบน ng-template ก็จะหมายถึง instance ของ TemplateRef -->
+<!-- เราจะได้นำไปใช้กับ @ViewChild() / @ContentChild() ถูก -->
+<div #locator>This is text.</div>
