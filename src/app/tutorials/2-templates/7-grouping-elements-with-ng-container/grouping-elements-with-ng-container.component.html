@@ -1,0 +1,21 @@
+<!-- อย่างที่เราเคยทำไปแล้ว ng-container สามารถทำได้หลายอย่าง -->
+<!-- ไม่ว่าจะ dynamic rendering Component ด้วย ngComponentOutlet -->
+<!-- หรือใช้ render Template ด้วย ngTemplateOutlet -->
+<!-- อีกสิ่งที่สำคัญก็คือ เราสามารถนำมาใช้จัดหมวดหมู่ elements ได้ -->
+<!-- เพราะว่า div จะถูกนำไปสร้างเป็น DOM Element แต่ว่า ng-container ไม่ -->
+<!-- จาก <div><h1>Hello</h1><p>world!</p></div> เราจะได้ 3 DOM คือ div, h1, p -->
+<!-- แต่ถ้าใช้ <ng-container><h1>Hello</h1><p>world!</p></ng-container> จะได้แค่ h1, p -->
+<!-- ข้อเสียคือถ้าเราจะจัด style เราจะไม่สามารถทำได้ เพราะว่ามันจะไม่ถูก render เป็น DOM -->
+<!-- แต่ว่าเราก็สามารถใช้ if, for, etc. อะไรได้เหมือนเดิม -->
+<!-- เอาไว้แค่จัดกลุ่มกันงงเฉย ๆ ถ้าจะแต่ง style ก็ต้องใช้ div อยู่ดี -->
+<!-- เอามาทำ Dependency Injection ก็ได้ เรื่องนี้จะอธิบายอีกครั้งที่หัวข้อในอนาคต -->
+<div class="container-a">
+  <h1>Hello World!</h1>
+  <p>This is Athiseen Chaiyod!</p>
+</div>
+
+<!-- style ของ class จะไม่แสดงผล เพราะว่าไม่ถูก render เป็น DOM จริง ๆ -->
+<ng-container class="container-b">
+  <h1>Also Hello World!</h1>
+  <p>This is Athiseen Chaiyod again!</p>
+</ng-container>
