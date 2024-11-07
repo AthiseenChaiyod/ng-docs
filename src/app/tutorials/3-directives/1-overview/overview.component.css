@@ -1,0 +1,15 @@
+.singleClass {
+  color: teal;
+}
+
+.isColored {
+  color: red;
+}
+
+.isBold {
+  font-weight: bold;
+}
+
+.isItalic {
+  font-style: italic;
+}
