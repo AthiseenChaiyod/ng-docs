@@ -1,0 +1,12 @@
+<!-- เวลาเราสร้าง Directive เสร็จแล้ว เราก็สามารถ import และเอามาใช้บน tag ได้เลย -->
+<h1 highlight>This is Attribute Directives Chapter!</h1>
+
+<!-- หาก directive เราต้องการค่าบางประเภท เราก็สามารถสร้าง input เพื่อให้สามารถส่งค่ากลับไปได้ -->
+<!-- แต่ว่าเราจะต้องประกาศ directive บน tag ด้วยนะ input ของ directive จึงสามารถใช้งานได้ -->
+<h2 color [defaultColor]="'green'">color directive</h2>
+
+<!-- เราสามารถใช้ ngNonBindable ได้บน tag เลยโดยไม่ต้อง import -->
+<!-- ngNonBindable จะทำให้เรา render HTML ตรง ๆ เลยไม่มีการประมวลผลของ Angular บนนั้น -->
+<!-- พูดง่าย ๆ ก็คือ เราจะไม่สามารถเปลี่ยน text ของ tag เป็นอย่างอื่นไปได้เลย -->
+<!-- แต่ว่าพวก style อะไรก็ยังมีผลอยู่ ถ้าไม่เกี่ยวข้องกับการ transform text ล่ะก็นะ -->
+<h3 ngNonBindable>{{ forBindable | currency }}</h3>
