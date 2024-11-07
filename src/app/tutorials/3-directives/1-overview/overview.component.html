@@ -1,0 +1,44 @@
+<!-- ตัวอย่างการใช้งาน NgClass ที่จะคล้าย ๆ กับ class prefix ที่เราเคยใช้งาน -->
+<!-- แต่ class prefix ไม่ต้อง import อะไร แถมการใช้งานหลากหลายกว่าด้วย -->
+<!-- สามารถ class.name เพื่อผูกค่าได้เลย หรือจะ class เฉย ๆ เพื่อใส่ค่าเหมือน ngClass ก็ได้ -->
+<div [ngClass]="singleClass ? 'singleClass' : ''">
+  This styles with ngClass!
+</div>
+<div [ngClass]="arrayClasses">This styles with array of classes!</div>
+
+<!-- NgStyle -->
+<!-- ส่วน NgStyle ก็คล้าย ๆ กับ style prefix ในบท template binding เหมือนกัน -->
+<!-- ใน style. เราสามารถทำได้เหมือนกับ class. หมดเลย -->
+<!-- ไม่ว่าจะ style.name เพื่อผูกค่าโดยตรงเลย หรือจะ style เฉย ๆ เพื่อใส่ค่าเหมือนใน ngStyle ก็ได้ -->
+<div [ngStyle]="arrayStyles">This styles with array of styles!</div>
+
+<!-- NgModel ขอละเอาไว้แล้วกัน เพราะว่าเราสามารถอ่านได้ในบท two-way binding เลย -->
+<!-- เราจะมาพูดถึงตัวที่เราไม่ได้เห็นบ่อยอย่าง NgIf, NgFor, NgSwitch -->
+<!-- NgIf ก็คือ @if นั่นแหละ แต่ว่าเราไม่ได้เอา decorator มาเขียนด้านนอก -->
+<!-- เราจะใช้การผูกค่ากับ property ของ Component เพื่อทำ condition rendering แทน -->
+<!-- พวก structural directive จะไม่ใช้ [ ] ครอบ แต่ว่าจะใช้ * เป็น prefix แทน -->
+<div *ngIf="isShow">This is for NgIf!</div>
+
+<!-- NgFor เอาไว้ loop render item ใน list ทีละตัวออกมา -->
+<!-- ให้เรานำ NgFor ไปผูกไว้กับ tag ที่เราอยากจะทำ loop rendering -->
+<!-- ให้ assign let name of arrayItem ให้กับ ngFor แล้วมันจะวน loop ตามจำนวนของ arrayItem -->
+<!-- เราสามารถใช้ name ที่เราตั้งตัวแปรเอาไว้ใน text interpolation ได้ แทน item แต่ละตัวที่ถูก loop -->
+<!-- โดยเราก็สามารถใส่ track ได้เหมือนกับ @for เลย สามารถเขียน trackBy function เองก็ได้ -->
+<!-- จะใช้ ng-container เพื่อลด DOM Elements เป็นอีกทางเลือกหนึ่ง -->
+<h1 *ngFor="let item of itemList; track: item">{{ item }}</h1>
+
+<!-- NgSwitch จะเหมือนกับ @switch ที่จะนำตัวแปรที่รับเทียบกับ case ที่เราเขียน -->
+<!-- ตัวแปรที่เรารับมาถ้าตรงกับ case ไหนที่เราเขียนไว้ก็จะแสดง content นั้น ๆ -->
+<!-- สำคัญคือ การผูกค่าของ ngSwitch จะใช้ attribute directive -->
+<!-- แต่ว่าตอนเราใช้ case เราจะใช้เป็น structural directive -->
+<!-- โดยเราจะใส่ค่าให้กับแต่ละ case ผ่านการ assign -->
+<!-- ภายใน " " ถ้าเกิดเป็น string เราจะต้องใส่ ' ' ครอบเอาไว้อีกทีด้วย ไม่งั้น Angular จะมองเป็นตัวแปร -->
+<!-- เช่น <h1 *ngSwitchCase="'Athiseen'">Hi Athiseen</h1> -->
+<!-- ส่วนตัว *ngSwitchDefault จะไม่ต้อง assign ด้านหลัง -->
+<div [ngSwitch]="whichCase">
+  <h1 *ngSwitchCase="0">This is header 1</h1>
+  <h2 *ngSwitchCase="1">This is header 2</h2>
+  <h3 *ngSwitchCase="2">This is header 3</h3>
+  <h4 *ngSwitchCase="3">This is header 4</h4>
+  <p *ngSwitchDefault>This is default</p>
+</div>
