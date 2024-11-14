@@ -1,0 +1,45 @@
+<!-- ตัวอย่างการใช้งาน custom structural directive พร้อมกับ context -->
+<!-- ในการเขียน shorthand syntax เราจะใช้ * นำหน้าชื่อของ directive เอาไว้ -->
+<!-- ด้านหลังของ shorthand directive เราจะทำการ assign ค่าให้กับมัน -->
+<!-- อย่างที่อ่านมาแล้วในไฟล์ของ custom-directive.directive.ts เราจะทำการ map ค่าของ input -->
+<!-- เราสามารถสร้างตัวแปรข้างใน assignment ของ directive ได้ด้วย keyword let -->
+<!-- ถ้าเราไม่ assign ค่าให้กับตัวแปร จะถือว่าให้ใช้ค่าของ $implicit -->
+<!-- ในการทำ input binding ให้กับ shorthand syntax directive จะต้องใช้ชื่อให้ตรงกับใน context -->
+<!-- เราสามารถทำ binding ค่าของ input กับ property หรือค่าบน Component นี้ได้ หรือจะใส่ค่าตรง ๆ ก็ได้ -->
+<!-- first จะมีค่าเท่ากับ $implicit เพราะว่าเราไม่ได้ทำ assignment ให้กับมัน -->
+<!-- second จะมีค่าเป็น object ที่เราสร้างเอาไว้ใน Component -->
+<!-- เพราะว่าเราให้ second มีค่าเท่ากับ input ซึ่ง input ทำ binding กับ object property นั้นเอาไว้ -->
+<!-- จะเห็นว่า first กับ second.name มีค่าเดียวกัน ทำให้รู้ว่ามาจาก reference เดียวกัน -->
+<!-- third จะมีค่า string เนื่องจากเรา binding ค่าของ input ให้เป็น string -->
+<p
+  *customDirective="
+    let first;
+    let second = data;
+    let third = value;
+    data: personalInfo;
+    value: 'the what?'
+  "
+>
+  <!-- ต่อมาเราจะนำ variables ที่เราสร้างด้วย let ไปลองใช้ใน template expression เพื่อทดสอบค่า -->
+  This is Structural Directive with Shorthand-Syntax, First value is:
+  {{ first.name }}, Second value is: {{ second.name }} and finally, Third:
+  {{ third }}
+</p>
+
+<!-- เราสามารถเขียนแบบ longhand syntax ได้เช่นกัน (แบบไม่มี *) -->
+<!-- ที่เราต้องทำก็คือเอา structural directive ของเราไปแปะเอาไว้บน ng-template -->
+<!-- ไม่สามารถแปะเอาไว้กับแท็กทั่วไปอย่าง p, div, h1, etc. ได้ -->
+<!-- ส่วนการใช้งานก็จะเหมือนกับ attribute directive เลย -->
+<!-- ประกาศชื่อ selector ของ directive แบบไม่ต้องมีอะไรครอบ -->
+<!-- input ก็ทำ binding ปกติ ใส่ [ ] ครอบเอาไว้แล้ว assign ค่าให้มัน -->
+<!-- อย่าลืมแค่ว่าถ้าจะ assign ค่าให้ตัวแปรให้ดูชื่อ context ด้วยว่าตรงกันไหม -->
+<ng-template
+  #locator
+  customDirective
+  [customDirectiveData]="valuableA"
+  [customDirectiveValue]="valuableB"
+  let-data="value"
+  let-antData="data"
+>
+  <h1>This is something: {{ data }} and {{ antData }}</h1>
+</ng-template>
