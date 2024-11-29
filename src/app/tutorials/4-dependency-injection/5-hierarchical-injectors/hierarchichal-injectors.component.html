@@ -1,0 +1,70 @@
+<!-- เวลาที่เราใช้งาน content projection นั้น Angular จะมองโค้ดของเราเป็น template logical structure -->
+<!-- content projection ที่ว่านี้ไม่จำเป็นที่จะต้องใช้ ng-content อย่างเดียวก็ได้ -->
+<!-- การนำ Component tag (selector) ก็นับเหมือนกัน -->
+<!-- เช่น <some-component></some-component> -->
+<!-- โดย Angular จะมองว่าพวก content projection มีโค้ด <#VIEW></#VIEW> คั่นอยู่ข้างในด้วยเสมอ -->
+<!-- ตัวอย่างของ logical structure -->
+<!--
+  <some-component>
+    <#VIEW>
+    </#VIEW>
+  </some-component> 
+-->
+<!-- โดยการค้นหา dependency ที่เรากล่าวถึงไปก็คือการมองหา dependency จาก <#VIEW> นี่แหละ -->
+<!-- เวลาที่เรา inject dependency เข้ามา Component tag ของเราก็จะมีโค้ดตรง logical structure เพิ่มขึ้นมา -->
+<!-- เช่น มีการ inject SomeService เข้าไปใน SomeComponent ก็จะได้ logical structure ด้านล่าง -->
+<!-- 
+  <some-component @ApplicationConfig @Inject(SomeService) someService=>SomeService>
+    <#VIEW>
+    </#VIEW>
+  </some-component> 
+-->
+<!-- พวก @... ก็รวมอยู่ใน logical structure ด้วยเหมือนกัน เราจะมองไม่เห็นหรือเขียนเอาเองได้ -->
+<!-- การที่เรา inject dependency ใด ๆ เข้าไปใน content นั้นก็จะมีโค้ดเหล่านี้แปะเข้าไปตรง tag ด้วยเสมอ -->
+<!-- จะมี @ ด้วยกัน 3 ตัว คือ @ApplicationConfig, @Inject(), และ @Provide() -->
+<!-- ซึ่ง @ApplicationConfig ก็คือ dependency ที่เราได้มาจาก EnvironmentInjector -->
+<!-- ก็คือถ้าเราไม่เจอที่ตัวเอง แล้วเราไม่มี Parent เลยทำให้เราจะต้องไปขอจาก EnvironmentInjector -->
+<!-- จะทำให้เราได้ @ApplicationConfig ติดเอาไว้ -->
+<!-- ส่วน @Inject(Token) token=>value ก็คือสิ่งที่เรา inject เข้ามาใน constructor -->
+<!-- แต่ถ้าเราประกาศเอาไว้ใน ElementInjector เราจะได้ @Provide(Token=value) แทน -->
+<!-- เวลาที่เราบอกว่าหา dependency ใน ElementInjector ของตัวเองก็คือการมองใน <#VIEW> ของตัวเองนั่นเอง -->
+<!-- ถ้าเราใช้ @SkipSelf() แทนที่เราจะหาใน <#VIEW> ของตัวเองก็จะไปหาใน <#VIEW> layer ด้านบนแทน (Parent) -->
+<!-- การมองโค้ดของเราเป็น logical structure จะทำให้เราเข้าใจ Hierarchical Injectors ได้ง่ายขึ้น -->
+<!-- เช่น ComponentA -> ComponentB -> ComponentC -->
+<!-- โดยให้ ComponentA inject SomeService เข้ามาโดยไม่ต้องประกาศ providers (ใช้ ElementInjector) -->
+<!-- ComponentB ก็ inject SomeService มาเช่นกัน -->
+<!-- ที่ไม่มี @ApplicationConfig ใน ComponentB ก็เพราะว่าเราได้ instance มาจาก ComponentA ไม่ใช่ Root -->
+<!-- สุดท้ายเราจะประกาศ providers: [SomeService] เอาไว้ใน ComponentC และ inject มันมาด้วย -->
+<!-- ตัวอย่างโค้ดแบบ logical structure จะอยู่ด้านล่าง -->
+<!-- 
+  <component-a @ApplicationConfig @Inject(SomeService)someService=>SomeService >
+    <#VIEW>
+      <component-b @Inject(SomeService) someService=>SomeService >
+        <#VIEW>
+          <component-c @Provide(someService=SomeService) @Inject(SomeService) someService=>SomeService >
+            <#VIEW>
+            </#VIEW>
+          </component-c>
+        </#VIEW>
+      </component-b>
+    </#VIEW>
+  </component-a>
+-->
+<!-- เมื่อเรารู้ว่า content projection ทุกตัวจะมี <#VIEW> เป็นของตัวเองจะทำให้เรามอง layer การหา dependency ง่ายขึ้น -->
+<!-- เช่น เราบอกว่าให้ ComponentB หาในตัวเองก่อน ซึ่งเราไม่ได้ประกาศเอาไว้ ไม่งั้นก็มี @Provide() แล้ว -->
+<!-- ดังนั้นเราเลยจะไปมองที่ <#VIEW> ด้านนอกตัวเองว่ามีไหม ซึ่งก็คือการขอจาก Parent ที่เราได้กล่าวไว้แต่แรก -->
+<!-- ถ้าไม่มี <#VIEW> ด้านนอกแล้ว เราก็จะไปขอจาก Root ทำให้เราได้ @ApplicationConfig มา -->
+<!-- สรุปแล้ว พยายามมองโค้ดให้อยู่ในรูปของ logical structure เข้าไว้ จะทำให้เข้าใจ dependency tree ได้ง่ายขึ้น -->
+
+<!-- อย่างไรก็ตาม นอกจาก providers: [] แล้ว เราก็ยังมี viewProviders: [] อีกตัว -->
+<!-- แม้ว่า providers จะเกี่ยวข้องกับ ElementInjector แต่ว่า viewProviders จะเกี่ยวข้องกับ <#VIEW> เป็นหลัก -->
+<!-- viewProviders จะทำให้ dependency ที่ประกาศเอาไว้แสดงผลแค่ใน <#VIEW> ของตัวเองเท่านั้น -->
+<!-- ดูการทำงานได้จากตัวอย่างโค้ดด้านล่าง -->
+<!-- 
+  <component-a>
+    <#VIEW @ApplicationConfig @Inject(SomeService) someService=>SomeService >
+    </#VIEW>
+  </component-a> 
+-->
+<!-- ปกติแล้ว @... ของเรามันจะประกาศเอาไว้กับ tag แต่ว่าพอเราใช้ viewProviders มันจะประกาศที่ <#VIEW> แทน -->
+<!-- กล่าวคือ ภายนอกจะไม่สามารถเข้าใช้งาน dependency ตัวนี้ได้ ลองดูตัวอย่างได้ที่ dir: ./view-providers -->
