@@ -1,0 +1,4 @@
+/* Class จะต้องชื่อเดียวกับที่เราประกาศเอาไว้ใน routerLinkActive ด้วย ถึงจะแสดงผล style */
+.activated-routerLink {
+  color: red;
+}

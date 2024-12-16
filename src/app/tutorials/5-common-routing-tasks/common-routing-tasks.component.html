@@ -1,0 +1,131 @@
+<h1>This is Common Routing Tasks Chapter!</h1>
+<h3>Test links are below:</h3>
+<ul>
+  <li>
+    <!-- ในการทำ routing ก็คงเลี่ยงไม่ได้ที่จะต้องทำยุ่งกับการเปลี่ยน path -->
+    <!-- สิ่งนึงที่เรารู้จักกันมาอย่างยาวนานก็คือ anchor tag กับ href -->
+    <!-- แต่ที่นี่ประเทศ Angular เราจะใช routerLink แทน -->
+    <!-- คิดซะว่า routerLink ก็คือ href แบบ upgraded -->
+    <!-- มีข้อดีหลายข้อมาก ๆ แต่ว่าข้อสำคัญคือ routerLink จะไม่ trigger page reload -->
+    <!-- ทำให้ performance จะดีกว่า href อีกทั้งเมื่อไม่ได้ page reload ก็จะเก็บ state เอาไว้ใช้ต่อได้ด้วย -->
+    <!-- ให้เราประกาศ routerLink ข้างใน anchor ลบ href ทิ้งไปเลย -->
+    <!-- ส่วนการ assign ค่าก็ให้ใส่ path โดยที่ไม่ต้องมี / -->
+    <!-- เช่น <a routerLink="something">Navigate!</a> -->
+    <!-- พอกดไปที่ Navigate! ก็จะถูกนำไปที่ /something แล้ว -->
+    <a routerLink="classic-routerlink">Classic routerLink</a>
+  </li>
+
+  <li>
+    <!-- เราสามารถแต่ง style ให้กับ anchor ของเราได้ด้วย routerLinkActive -->
+    <!-- โดย style จะแสดงผลเฉพาะเมื่อ URL match กับ routerLink เท่านั้น -->
+    <!-- เช่น เราอยู่ที่ /something และ routerLink="something" ก็จะแสดงผล style ที่เราเขียนเอาไว้ -->
+    <!-- แล้วเราจะเขียน style เอาไว้ที่ไหนยังไงล่ะ? -->
+    <!-- อันดับแรก routeLinkActive จะรับค่า string เป็นชื่อของ css ที่เราจะนำมา apply -->
+    <!-- เช่น routerLinkActive="some-class" ก็แปลว่าเมื่อ URL match กับ routerLink จะนำ some-class มา apply -->
+    <!-- ให้เราไปเขียน .some-class { ... } ใน CSS file ได้เลยโดยไม่ต้องไปสร้าง class บน anchor เพิ่ม -->
+    <!-- สมมติให้ <a routerLink="something" routerLinkActive="wassup">navigate</a> -->
+    <!-- และเราอยู่ที่ URL: /something โดยมี CSS คือ .wassup { color: gold } -->
+    <!-- แปลว่าตอนนี้ URL กับ routerLink เรา match กัน จากนั้นจึงจะไปดึง CSS ชื่อว่า wassup มาแสดงผลบน anchor -->
+    <!-- ถ้าเราออกจาก /something ไปที่ path อื่น เช่น /user anchor เราก็จะกลับมาเป็นสีปกติ เพราะไม่ match กันแล้ว -->
+    <!-- แต่ แต่ แต่ Angular จะ match route โดยใช้ routerLink เป็น prefix เทียบกับ URL -->
+    <!-- แปลว่าถ้าเราเข้าไปที่ /something/another ตัว anchor ของเราก็ยังจะเป็นสี gold อยู่ดี -->
+    <!-- แก้ไขได้โดยแทนที่จะ match แค่ prefix route ให้เรา match แบบตรงเป๊ะไปเลย -->
+    <!-- ประกาศ routerLinkActiveOptions เพิ่มไป และให้เราทำ dynamic binding ให้กับมันด้วย -->
+    <!-- เผื่อลืม ก็คือให้เราครอบ [ ] เอาไว้นอก routerLinkActiveOptions -->
+    <!-- ถ้าเราไม่ครอบ เวลาเรา assign ค่าให้กับ routerLinkActiveOptions มันจะมองว่าเป็น string -->
+    <!-- แต่ถ้าครอบเราจะสามารถผูกค่าให้มันแบบ dynamic โดยใช้ตัวแปร หรือค่าต่าง ๆ ได้ -->
+    <!-- ให้เราใส่ object ที่มี exact เป็น key และมี value เป็น true ให้กับ routerLinkActiveOptions -->
+    <!-- เราจะได้ [routerLinkActiveOptions]="{ exact: true }" -->
+    <!-- ทีนี้แทนที่จะ match route แบบ prefix ก็จะ match แบบ full แล้ว -->
+    <a
+      routerLink="activated-routerlink"
+      routerLinkActive="activated-routerLink"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Activated routerLink</a
+    >
+  </li>
+
+  <li>
+    <a routerLink="dynamic-route/athiseen">Dynamic Route</a>
+  </li>
+
+  <li>
+    <a routerLink="redirect">Redirect</a>
+  </li>
+
+  <li>
+    <!-- เราสามารถใช้ relative path ได้เหมือนกับตอนที่เราใช้ในพวก Command Line -->
+    <!-- สมมติว่าเราอยู่ที่ /something/another แล้วเราอยากขึ้นไป 1 ระดับ (ไปที่ /something) -->
+    <!-- การเขียนแบบ static ก็จะเขียน routerLink="something" ซึ่งก็ได้เหมือนกัน -->
+    <!-- แต่ว่าให้นึกภาพ path เราลึก ๆ การมานั่งเขียนแบบ static เรื่อย ๆ ก็ตายพอดี -->
+    <!-- เราก็จะใช้ . ซึ่งหมายถึง path ปัจจุบัน หรือจะใช้ .. ซึ่งหมายถึง path ก่อนหน้า -->
+    <!-- ดังนั้นเราอยากจะไปที่ something ซึ่งเป็น path ก่อนหน้า เราก็เขียนใหม่ได้เป็น routerLink=".." -->
+    <!-- พอกด จากเดิมเราอยู่ที่ /something/another ก็จะกลับไปที่ /something แทน -->
+    <a routerLink="../relative-path">Relative Path</a>
+  </li>
+
+  <li>
+    <!-- เราสามารถทำ dynamic binding ให้กับ routerLink เราได้เหมือนกัน แต่ว่า syntax การเขียนจะเปลี่ยนไป -->
+    <!-- แทนที่เราจะใช้ string เป็น value เราจะต้องใช้ [ ] เหมือนกับ Router.navigate() แทน -->
+    <!-- โดยเราจะสามารถใส่ string มาเลยตรง ๆ ก็ได้ จะ binding ตัวแปรก็ได้ -->
+    <!-- อีกอย่างที่สำคัญคือ เราจะใส่ matrix parameter มาก็ได้ -->
+    <!-- matrix parameter ก็เป็น route parameter เหมือนกับ query parameter ที่เราเคยเห็นอยู่บ่อย ๆ -->
+    <!-- โดยเราจะมาพูดเรื่อง query parameter ก่อนแล้วค่อยอธิบายเรื่อง matrix parameter -->
+    <!-- query param ก็คือ URL ที่จะปิดท้ายด้วย prefix ? เป็นสัญญาณว่าด้านหลัง ? จะเป็น query param แล้วนะ -->
+    <!-- โดย parameter แต่ละตัวจะอยู่ในรูป key=value และคั่นแต่ละตัวด้วย & -->
+    <!-- เช่น my-domain.com/user/setting?lang=Thai&mode=dark -->
+    <!-- query param จะเป็น global ไม่ได้ tied อยู่กับ segment ใด segment หนึ่ง (สังเกตจากประกาศด้านหลังรวดเดียว) -->
+    <!-- เวลาที่เราจะดึงข้อมูล query param บน URL จะต้องใช้ queryParamMap ใส่ route ปัจจุบันที่เราจะดึง -->
+    <!-- ดังนั้นก็จะเลี่ยงไม่ค่อยจะได้ที่จะไม่ inject ActivatedRoute เข้ามาด้วย -->
+    <!-- ตัวอย่างการดึงข้อมูล: this.route.queryParamMap.subscribe(param => const id = param.get(`id`) ) -->
+    <!-- จากโค้ดบรรทัดบน เราใช้ method queryParamMap ของ ActivatedRoute ที่เรา inject เข้ามา -->
+    <!-- แล้วเราก็จะใช้ .get() ใส่ param ที่เราส่งเข้าไปเป็น argument  -->
+    <!-- โดย .get() จะรับค่า string key ของ param ที่เราจะดึง -->
+    <!-- สมมติว่าเราอยากดึง name จาก my-domain.com/user?name=Athiseen ก็จะใช้ .get(`name`) -->
+    <!-- เราสามารถส่ง query param ไปกับ URL เราได้โดยการใช้ [queryParams]={ key: value, ... } -->
+    <!-- โดยเราจะต้องประกาศ [queryParams] เป็น dynamic binding ตัวหนึ่งเหมือนกับ routerLink เลย ห้ามเขียนรวมกัน -->
+    <!-- เช่น <a routerLink="user" [queryParams]="{ name: 'Athiseen'}">Click</a> -->
+    <!-- matrix param นั้น แม้จะคล้ายกับ query param แต่ว่าการใช้งานจะคนละเรื่องกันเลย -->
+    <!-- อย่างแรกคือ matrix param จะไม่ประกาศทีเดียวด้านหลังเหมือน query แต่จะประกาศให้แต่ละ URL segment แยกกัน -->
+    <!-- URL segment ก็คือ URL ของเราแต่ละส่วนที่ถูกคั่นด้วย / -->
+    <!-- เช่น my-domain.com/user/role จะแบ่งได้เป็น /user และ /role -->
+    <!-- matrix param ก็จะถูกแปะเอาไว้กับ segment ของเรา โดยจะอยู่ในรูป ;key1=value1;key2=value2... -->
+    <!-- เช่น my-domain.com/user;role=admin/info;name=Athiseen;age=25 -->
+    <!-- ข้อมูล role จะเป็นของ segment user ส่วนข้อมูล name, age จะเป็นของ segment info -->
+    <!-- เราจะใช้ paramMap ในการดึงข้อมูลของ matrix param (ตัดคำว่า query ของ queryParamMap ออก) -->
+    <!-- โดยเราจะต้อง inject ActivatedRoute มาด้วยเหมือนกัน เพราะว่าจะดึงข้อมูลของ route ปัจจุบัน -->
+    <!-- โดยจะเขียน syntax การดึงข้อมูลเหมือนกับ query param ทุกอย่าง -->
+    <!-- เราก็จะได้ this.route.paramMap.subscribe(params => const name = params.get(`name`)) -->
+    <!-- ส่วนวิธีการส่ง matrix param จะเขียนรวมอยู่ใน routerLink path ไปเลย -->
+    <!-- เราจะต้องทำ dynamic binding เท่านั้น ถึงจะส่ง matrix param ได้ (routerLink="path" เปล่า ๆ ไม่ได้) -->
+    <!-- ให้เราคั่น , และใส่ { key: value } ให้กับ segment ที่เราอยากจะใส่ได้เลย -->
+    <!-- เช่น [routerLink]="['user', { role: 'admin'}, 'info', {name: 'athiseen', age: 26 }]" -->
+    <!-- เวลาเราเข้าไปที่ URL จะได้ my-domain.com/user;role=admin/info;name=athiseen;age=26 -->
+    <!-- ห้ามประกาศ matrix param ติดกันสองตัวขึ้นไป ไม่งั้น URL จะผิด (ได้ [object Object]) -->
+    <!-- ไม่รู้ว่าอธิบายเรื่อง dynamic binding กับ routerLink ไปหรือยัง -->
+    <!-- การครอบ [ ] ให้กับ routerLink ก็คือการทำ input binding ทำให้เราสามารถ bind ค่าใน "" ได้ -->
+    <!-- โดยวิธีเขียน routerLink จะเปลี่ยนไปด้วย แทนที่เราจะใส่ path: string ปกติ ให้เราใส่ [] เข้าไปใน "" แทน -->
+    <!-- เช่น [routerLink]="[]" -->
+    <!-- โดยข้างในของ [] ก็จะรับค่า string หรือ Record<key, value> ที่จะเป็น segment / matrix ตามลำดับ -->
+    <!-- เช่น [routerLink]="['user']" ก็จะได้ my-domain/user (ไม่ต้องใส่ /) -->
+    <!-- ถ้าเกิดเราไม่ครอบ [ ] ทุกอย่างใน "" จะถูกมองเป็น string -->
+    <!-- เช่น routerLink="['user']" ก็จะได้ my-domain/['user'] -->
+    <!-- ทุก ๆ การคั่นด้วย , ใน [] ให้เรามองเป็น / -->
+    <!-- เช่น [routerLink]="['user', 'info']" ก็จะได้ my-domain.com/user/info -->
+    <!-- ยกเว้นตัวที่อยู่ด้านหลังจะเป็น matrix param ก็จะไม่มี / คั่นเอาไว้ แต่จะใช้ matrix param วางไปเลย -->
+    <!-- เช่น [routerLink]="['user', { role: 'admin' }]" ก็จะได้ my-domain.com/user;role=admin -->
+    <a
+      [queryParams]="{ lastName: 'Chaiyod' }"
+      [routerLink]="['inline-routerLink', { firstName: 'Athiseen' }]"
+      >Inline routerLink</a
+    >
+  </li>
+</ul>
+
+<!-- การเขียน routing อย่างสุดท้ายก็คือการทำ navigation ให้กับ non-anchor -->
+<!-- เช่น เราอยากให้กดที่รูปแล้วไปที่ URL ที่ระบุ เราจะซ้อน anchor เอาไว้ก็ได้ แต่อย่าเลย มีวิธ๊ที่ดีกว่านั้น -->
+<!-- ให้เราไปสร้าง method ที่จะเรียกใช้ Route.navigate() แล้วเรียกใช้มันแทน -->
+<!-- อ่านได้ที่ ./common-routing-tasks.component.ts -->
+<button (click)="clickNavigate()">Router.navigate()</button>
+
+<router-outlet />

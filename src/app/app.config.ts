@@ -1,10 +1,19 @@
 import { ApplicationConfig, InjectionToken } from '@angular/core';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   // เราสามารถประกาศ service ที่ providers ของ AppConfig โดยตรงได้
   // แต่ service ที่เราจะนำมาใช้จะต้องเป็น service สำคัญต่อระบบจริง ๆ หรือใช้ร่วมกันทั้ง Application เท่านั้น
   // เช่น Authentication, Environment management, etc.
-  providers: [],
+  // การจะเปิดใช้งานตัวแปร routes ที่เราสร้างจะต้องประกาศ provideRouter() ข้างใน providers ของ app.config.ts
+  // โดยทั่วไปแล้ว Angular จะจัดการ step การสร้าง routes พื้นฐานให้ตั้งแต่ตอน ng new แล้ว
+  // ตัว provideRouter() ของเราจะรับ argument หนึ่งตัว นั่นก็คือตัวแปร route ที่เราสร้าง
+  // หลังจากประกาศ provideRouter(route) เสร็จ route ของเราก็สามารถเข้าถึงได้แล้ว
+  // ในการทำ parameter binding กับ input ของ Component เราจะต้องประกาศ withComponentInputBinding() เอาไว้เสมอ
+  // โดยให้ประกาศข้างใน provideRouter() เหมือนกับตัวแปร route
+  // จะต้องมี () ตามหลังด้วยเ เพราะว่าเป็น function
+  providers: [provideRouter(routes, withComponentInputBinding())],
 };
 
 // ในกรณีที่เราไม่อยากใช้ Class เป็น token เราก็ต้องสร้าง string token ขึ้นมาเอง
