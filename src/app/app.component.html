@@ -1,0 +1,7 @@
+<!-- การที่จะให้ route render Component ก็ต้องมีพื้นที่ในการแสดงผลด้วย -->
+<!-- นึกภาพเหมือนกับเราใช้ ng-content นั่นแหละ ที่จะเอา Content ที่เราใส่มามา render ตรงนั้น -->
+<!-- route ก็มี ng-content ของมันเองเหมือนกัน ชื่อว่า router-outlet -->
+<!-- Component ที่เราใส่เอาไว้ใน Routes ตรง component: value จะถูก render ใน router-outlet เสมอ -->
+<!-- และเราจะต้อง import RouterOutlet เข้ามาเพื่อใช้งานด้วย -->
+<!-- เราสามารถใส่ class แต่ง style ให้กับ router-outlet ได้ปกติเหมือนกับเป็น container ตัวหนึ่ง -->
+<router-outlet />
