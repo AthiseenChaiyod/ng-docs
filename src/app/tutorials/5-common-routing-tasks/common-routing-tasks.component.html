@@ -120,6 +120,15 @@
       >Inline routerLink</a
     >
   </li>
+
+  <li>
+    <!-- ในกรณีที่เราต้องการจัดการกับ URL ที่แปลกประหลาดหน่อย เช่น route param รวมอยู่ใน URL -->
+    <!-- ตัวอย่างเช่น my-domain.com/products/productId-1234 -->
+    <!-- แล้วสมมติว่าเราต้องการให้ด้านหลัง - ต้องเป็นตัวเลขเท่านั้น ห้าม productId-abcd, productId---, ... -->
+    <!-- เราจะต้องเขียน match URL เอาเอง โดยใช้ matcher แทน path เนื่องจาก path เราใช้ setup ง่าย ๆ เท่านั้น -->
+    <!-- ดูการเขียนได้ที่ ../../app.routes.ts -->
+    <a routerLink="custom-matcher">Matcher routerLink</a>
+  </li>
 </ul>
 
 <!-- การเขียน routing อย่างสุดท้ายก็คือการทำ navigation ให้กับ non-anchor -->
